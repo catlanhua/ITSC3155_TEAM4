@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="QnA App">
+        <title>QnA - Posts</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
+    <body>
+
+        <nav>
+            <a href="{{ url_for('index') }}"> Home</a> ||
+            <a href="{{ url_for('get_posts') }}"> My Posts </a> ||
+            <a href="{{ url_for('new_post') }}"> New Post </a>
+        </nav>
+
+        <h1>Welcome {{user.name}} to the QnA App!</h1>
+        <h1>Listing Posts</h1>
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+            </tr>
+            {% for key, value in posts.items() %}
+            <tr>
+                <td><a href="{{url_for('get_post', post_id=key) }}">{{ value.title }}</a></td>
+                <td>{{ value.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
