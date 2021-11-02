@@ -19,7 +19,7 @@ h2{
 /**Styling the Navigation bar START **/
  .navigation a {
     float: right;
-    color: #f2f2f2;
+    color: lightblue;
     text-align: right;
     padding: 10px 12px;
     text-decoration: none;
@@ -29,7 +29,7 @@ h2{
   /* Change the color of links on hover */
   .navigation a:hover {
     background-color: #ddd;
-    color: black;
+    color: gray;
   }
 
   /* Add a color to the active/current link */
