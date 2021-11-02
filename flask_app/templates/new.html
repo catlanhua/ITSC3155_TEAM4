@@ -10,13 +10,15 @@
     </head>
     <body>
        <nav>
+           <div class = "navigation">
            <a href="{{ url_for('index') }}"> Home</a> ||
             <a href="{{ url_for('get_posts') }}"> My Posts </a> ||
             <a href="{{ url_for('new_post') }}"> New Post </a>
+           </div>
        </nav>
 
         <h1>Welcome {{user.name}} to the QnA App!</h1>
-        <form action="new" method="post">
+        <form action="new" name = "form" method="post">
            <p><label>Title </label></p><p>  <input type="text" name="title"/></p>
             <p><label>Note </label></p><p><textarea name="noteText"  rows="6" cols="0" >Add your new post here ...</textarea></p>
             <p><input type="submit" value="Add Post"/></p>
