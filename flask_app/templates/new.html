@@ -8,7 +8,8 @@
         <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     </head>
-    <body>
+
+    <header>
        <nav>
            <div class = "navigation">
            <a href="{{ url_for('index') }}"> Home</a>
@@ -16,7 +17,12 @@
             <a href="{{ url_for('new_post') }}"> New Post </a>
            </div>
        </nav>
+    </header>
+    <br>
+    <br>
+    <hr>
 
+    <body>
         <h1>Welcome {{user.name}} to the QnA App!</h1>
         <form action="new" name = "form" method="post">
            <p><label>Title </label></p><p>  <input type="text" name="title"/></p>

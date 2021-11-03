@@ -18,12 +18,13 @@ h2{
 
 /**Styling the Navigation bar START **/
  .navigation a {
-    float: right;
-    color: lightblue;
+    float: left;
+    color: black;
     text-align: right;
     padding: 10px 12px;
     text-decoration: none;
     font-size: 14px;
+    font-weight: bold;
   }
 
   /* Change the color of links on hover */
@@ -70,3 +71,26 @@ h2{
     border-radius: 4px;
   }
   /**Styling the form END **/
+
+  /**Styling the table START**/
+ table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  height: 70px;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+td {
+  text-align: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+tr:nth-child(even) {background-color: lightgray;}
+th {
+  background-color: black;
+  color: white;
+}
+
+

@@ -8,19 +8,23 @@
         <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     </head>
-    <body>
 
-        <h1>Welcome {{user.name}} to the QnA App!</h1>
-
-        <h2>Use this site to post, reply and rate questions.</h2>
-
-        <nav>
+    <header>
+            <nav>
             <div class = "navigation">
             <a href="{{ url_for('index') }}"> Home</a>
             <a href="{{ url_for('get_posts') }}"> My Posts </a>
             <a href="{{ url_for('new_post') }}"> New Post </a>
             </div>
         </nav>
+    </header>
+    <br>
+    <br>
+    <hr>
 
+    <body>
+        <h1>Welcome {{user.name}} to the QnA App!</h1>
+        <h2>Use this site to post, reply and rate questions.</h2>
     </body>
+
 </html>
