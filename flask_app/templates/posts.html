@@ -31,10 +31,10 @@
                 <th>Title</th>
                 <th>Date</th>
             </tr>
-            {% for key, value in posts.items() %}
+            {% for post in posts %}
             <tr>
-                <td><a href="{{url_for('get_post', post_id=key) }}">{{ value.title }}</a></td>
-                <td>{{ value.date }}</td>
+                <td><a href="{{url_for('get_post', post_id=post.id) }}">{{ post.title }}</a></td>
+                <td>{{ post.date }}</td>
             </tr>
             {% endfor %}
         </table>
