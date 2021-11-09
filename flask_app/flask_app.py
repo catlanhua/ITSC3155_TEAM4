@@ -49,7 +49,7 @@ def get_post(post_id):
 def new_post():
     if request.method == 'POST':
         title = request.form['title']
-        text = request.form['noteText']
+        text = request.form['postText']
         from datetime import date
         today = date.today()
         today = today.strftime("%m-%d-%Y")
@@ -62,7 +62,32 @@ def new_post():
         a_user = db.session.query(User).filter_by(email='chua@uncc.edu').one()
         return render_template('new.html', user=a_user)
 
+@app.route('/posts/edit/<post_id>', methods=['GET', 'POST'])
+def update_post(post_id):
+    if request.method == 'POST':
+        title = request.form['title']
+        text = request.form['postText']
+        my_post = db.session.query(Post).filter_by(id=post_id).one()
+        # update note data
+        my_post.title = title
+        my_post.text = text
+        # update note in db
+        db.session.add(my_post)
+        db.session.commit()
+        return redirect(url_for('get_posts'))
+    else:
+        a_user = db.session.query(User).filter_by(email='chua@uncc.edu').one()
+        my_post = db.session.query(Post).filter_by(id=post_id).one()
+        return render_template('new.html', post=my_post, user=a_user)
 
+@app.route('/posts/delete/<post_id>', methods=['POST'])
+def delete_post(post_id):
+    # retrieve note from database
+    my_post = db.session.query(Post).filter_by(id=post_id).one()
+    db.session.delete(my_post)
+    db.session.commit()
+
+    return redirect(url_for('get_posts'))
 app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)),debug=True)
 
 # To see the web page in your web browser, go to the url,
