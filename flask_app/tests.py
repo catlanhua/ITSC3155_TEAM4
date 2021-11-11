@@ -25,7 +25,18 @@ class FlaskTest(unittest.TestCase):
         response = requests.get("http://127.0.0.1:5000/posts/new")
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
-        self.assertEqual('<form action="new" name = "form" method="post">' in response.text, True)
+        self.assertEqual('<form action="new" method="post">' in response.text, True)
+
+    def test_update(self):
+        response = requests.get("http://127.0.0.1:5000/posts/edit/1")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
+        self.assertEqual('Update Post' in response.text, True)
+
+    def test_delete(self):
+        response = requests.get("http://127.0.0.1:5000/posts/delete")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 500)
 
 if __name__ == " __main__":
     unittest.main()
