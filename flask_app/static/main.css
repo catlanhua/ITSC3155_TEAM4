@@ -1,6 +1,7 @@
 
 body {
     padding: 30px 30px;
+    background-color:#ACE1AF;
     }
 
 h1{
@@ -29,8 +30,8 @@ h2{
 
   /* Change the color of links on hover */
   .navigation a:hover {
-    background-color: #ddd;
-    color: gray;
+    background-color: #006400;
+    color: white;
   }
 
   /* Add a color to the active/current link */
@@ -63,8 +64,8 @@ h2{
 
   input[type=submit] {
     width: 100%;
-    background-color: black;
-    color: gray;
+    background-color: #006400;
+    color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
@@ -87,9 +88,9 @@ td {
   padding: 15px;
   border-bottom: 1px solid #ddd;
 }
-tr:nth-child(even) {background-color: lightgray;}
+tr:nth-child(even) {background-color: #D0F0C0;}
 th {
-  background-color: black;
+  background-color: #006400;
   color: white;
 }
 
