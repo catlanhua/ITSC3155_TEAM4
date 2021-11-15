@@ -11,10 +11,12 @@
 
     <header>
        <nav>
-           <div class = "navigation">
-           <a href="{{ url_for('index') }}"> Home</a>
+            <div class = "navigation">
+            <a href="{{ url_for('index') }}"> Home</a>
             <a href="{{ url_for('get_posts') }}"> My Posts </a>
             <a href="{{ url_for('new_post') }}"> New Post </a>
+			<a href="{{ url_for('logout') }}">Logout</a>
+
            </div>
        </nav>
     </header>
@@ -24,7 +26,7 @@
     <hr>
 
     <body>
-        <h1>Welcome {{user.name}} to the QnA App!</h1>
+        <h1>Welcome {{user}} to the QnA App!</h1>
         {% if post %}
 			<form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
 		{% else %}
