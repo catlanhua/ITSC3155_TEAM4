@@ -21,12 +21,15 @@ form {
   background: white;
   width: 350px;
   box-shadow: 0 0 5px rgba(65, 67, 144, 0.1);
-  padding: 10px
+  padding: 10px;
+  margin: auto;
+  margin-top: 30px;
+  max-width: 500px;
 }
 
 label {
   font-size: .9em;
-  color: green;
+  color: black;
   margin-bottom: 3px;
   display: block;
   font-weight: 300;

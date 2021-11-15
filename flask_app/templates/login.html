@@ -7,22 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 </head>
     <body>
-        <div class="navdiv">
+        <div class="navigation">
             <nav>
-                <a href="{{ url_for('index') }}"> Home</a> ||
-                <a href="{{ url_for('get_posts') }}"> My Posts</a> ||
+                <a href="{{ url_for('index') }}"> Home</a> 
+                <a href="{{ url_for('get_posts') }}"> My Posts</a> 
                 <a href="{{ url_for('new_post') }}">New Post</a>
-            </nav>
-			{% if user %}
-				<nav>
-					<a href="{{ url_for('logout') }}">Logout</a>
-				</nav>
-			{% else %}
-				<nav>
+				{% if user %}	
+					<a href="{{ url_for('logout') }}">Logout</a>				
+				{% else %}
 					<a href="{{ url_for('login') }}">Log In</a>
 					<a href="{{ url_for('register') }}">Register</a>
-				</nav>
-			{% endif %}
+				{% endif %}
+            </nav>
         </div>
 
         <h1>Welcome {% if user %}{{user}}{% endif %}to the QnA App!</h1>

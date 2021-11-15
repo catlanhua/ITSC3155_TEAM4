@@ -7,29 +7,26 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 </head>
     <body>
-        <div class="navdiv">
+        <div class="navigation">
             <nav>
                 <a href="{{ url_for('index') }}"> Home </a> 
                 <a href="{{ url_for('get_posts') }}"> My Posts </a> 
                 <a href="{{ url_for('new_post') }}"> New Post </a>
-            </nav>
-			{% if user %}
-				<nav>
-					<a href="{{ url_for('logout') }}">Logout</a>
-				</nav>
-			{% else %}
-				<nav>
+				{% if user %}				
+					<a href="{{ url_for('logout') }}">Logout</a>				
+				{% else %}				
 					<a href="{{ url_for('login') }}">Log In</a>
-					<a href="{{ url_for('register') }}">Register</a>
-				</nav>
-			{% endif %}			
+					<a href="{{ url_for('register') }}">Register</a>				
+				{% endif %}		
+            </nav>
+				
         </div>
-        <h1>Welcome {% if user %}{{user}}{% endif %} to the QnA App!</h1>
-
+        
+		<h1>Welcome {% if user %}{{user}}{% endif %} to the QnA App!</h1>
         <h2>Use this site to post, reply and rate questions.</h2>
         <div class="formwrapper">
             <h2 class="title">Register</h2>
-            <form method="POST" action="/register">
+            <form id="form_register" method="POST" action="/register">
                 <div class="form-field">{{ form.firstname.label }} {{ form.firstname }}
                     {% if form.firstname.errors %}
                     <ul class="errors">
