@@ -9,7 +9,7 @@ from flask import redirect, url_for, session
 from database import db
 from models import Post as Post
 from models import User as User
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 import bcrypt
 
 app = Flask(__name__)     # create an app
@@ -30,8 +30,9 @@ with app.app_context():
 @app.route('/')
 @app.route('/index')
 def index():
-    a_user = db.session.query(User).filter_by(email='chua@uncc.edu').one()
-    return render_template('index.html', user=a_user)
+    if session.get('user'):
+        return render_template("index.html", user=session['user'])
+    return render_template("index.html")
 
 
 @app.route('/posts')
@@ -45,54 +46,63 @@ def get_posts():
 
 @app.route('/posts/<post_id>')
 def get_post(post_id):
-    a_user = db.session.query(User).filter_by(email='chua@uncc.edu').one()
-    my_post = db.session.query(Post).filter_by(id=post_id).one()
-    return render_template('post.html', post=my_post, user=a_user)
-
+    if session.get('user'):
+        my_post = db.session.query(Post).filter_by(id=post_id, user_id=session['user_id']).one()
+        # create a comment form object
+        return render_template("post.html", post=my_post, user=session['user'])
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
-    if request.method == 'POST':
-        title = request.form['title']
-        text = request.form['postText']
-        from datetime import date
-        today = date.today()
-        today = today.strftime("%m-%d-%Y")
-        new_record = Post(title, text, today)
-        db.session.add(new_record)
-        db.session.commit()
+    if session.get('user'):
+        if request.method == 'POST':
+            title = request.form['title']
+            text = request.form['postText']
+            from datetime import date
+            today = date.today()
+            today = today.strftime("%m-%d-%Y")
+            new_record = Post(title, text, today, session['user_id'])
+            db.session.add(new_record)
+            db.session.commit()
 
-        return redirect(url_for('get_posts'))
+            return redirect(url_for('get_posts'))
+        else:
+            return render_template("new.html", user=session['user'])
     else:
-        a_user = db.session.query(User).filter_by(email='chua@uncc.edu').one()
-        return render_template('new.html', user=a_user)
+        return redirect(url_for('login'))
 
 @app.route('/posts/edit/<post_id>', methods=['GET', 'POST'])
 def update_post(post_id):
-    if request.method == 'POST':
-        title = request.form['title']
-        text = request.form['postText']
-        my_post = db.session.query(Post).filter_by(id=post_id).one()
-        # update note data
-        my_post.title = title
-        my_post.text = text
-        # update note in db
-        db.session.add(my_post)
-        db.session.commit()
-        return redirect(url_for('get_posts'))
+    if session.get('user'):
+        if request.method == 'POST':
+            title = request.form['title']
+            text = request.form['postText']
+            my_post = db.session.query(Post).filter_by(id=post_id).one()
+            # update note data
+            my_post.title = title
+            my_post.text = text
+            # update note in db
+            db.session.add(my_post)
+            db.session.commit()
+            return redirect(url_for('get_posts'))
+        else:
+            my_post = db.session.query(Post).filter_by(id=post_id).one()
+            return render_template("new.html", post=my_post, user=session['user'])
     else:
-        a_user = db.session.query(User).filter_by(email='chua@uncc.edu').one()
-        my_post = db.session.query(Post).filter_by(id=post_id).one()
-        return render_template('new.html', post=my_post, user=a_user)
+        return redirect(url_for('login'))
 
 @app.route('/posts/delete/<post_id>', methods=['POST'])
 def delete_post(post_id):
+    if session.get('user'):
     # retrieve note from database
-    my_post = db.session.query(Post).filter_by(id=post_id).one()
-    db.session.delete(my_post)
-    db.session.commit()
+        my_post = db.session.query(Post).filter_by(id=post_id).one()
+        db.session.delete(my_post)
+        db.session.commit()
 
-    return redirect(url_for('get_posts'))
+        return redirect(url_for('get_posts'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -118,6 +128,38 @@ def register():
 
     # something went wrong - display register view
     return render_template('register.html', form=form)
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    login_form = LoginForm()
+    # validate_on_submit only validates using POST
+    if login_form.validate_on_submit():
+        # we know user exists. We can use one()
+        the_user = db.session.query(User).filter_by(email=request.form['email']).one()
+        # user exists check password entered matches stored password
+        if bcrypt.checkpw(request.form['password'].encode('utf-8'), the_user.password):
+            # password match add user info to session
+            session['user'] = the_user.first_name
+            session['user_id'] = the_user.id
+            # render view
+            return redirect(url_for('get_posts'))
+
+        # password check failed
+        # set error message to alert user
+        login_form.password.errors = ["Incorrect username or password."]
+        return render_template("login.html", form=login_form)
+    else:
+        # form did not validate or GET request
+        return render_template("login.html", form=login_form)
+
+@app.route('/logout')
+def logout():
+    # check if a user is saved in session
+    if session.get('user'):
+        session.clear()
+
+    return redirect(url_for('index'))
+
 app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)),debug=True)
 
 # To see the web page in your web browser, go to the url,
