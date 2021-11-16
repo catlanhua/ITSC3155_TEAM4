@@ -170,7 +170,8 @@ def logout():
 @app.route('/allPosts')
 def all_posts():
     if session.get('user'):
-        return render_template("allPosts.html", user=session['user'])
+        posts = db.session.query(Post).all()
+        return render_template("allPosts.html", posts=posts, user=session['user'])
     return render_template("allPosts.html")
 
 
