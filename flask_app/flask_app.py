@@ -53,6 +53,7 @@ def get_post(post_id):
     else:
         return redirect(url_for('login'))
 
+
 @app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
     if session.get('user'):
@@ -71,6 +72,7 @@ def new_post():
             return render_template("new.html", user=session['user'])
     else:
         return redirect(url_for('login'))
+
 
 @app.route('/posts/edit/<post_id>', methods=['GET', 'POST'])
 def update_post(post_id):
@@ -92,6 +94,7 @@ def update_post(post_id):
     else:
         return redirect(url_for('login'))
 
+
 @app.route('/posts/delete/<post_id>', methods=['POST'])
 def delete_post(post_id):
     if session.get('user'):
@@ -103,6 +106,7 @@ def delete_post(post_id):
         return redirect(url_for('get_posts'))
     else:
         return redirect(url_for('login'))
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -129,6 +133,7 @@ def register():
     # something went wrong - display register view
     return render_template('register.html', form=form)
 
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     login_form = LoginForm()
@@ -152,6 +157,7 @@ def login():
         # form did not validate or GET request
         return render_template("login.html", form=login_form)
 
+
 @app.route('/logout')
 def logout():
     # check if a user is saved in session
@@ -159,6 +165,14 @@ def logout():
         session.clear()
 
     return redirect(url_for('index'))
+
+
+@app.route('/allPosts')
+def all_posts():
+    if session.get('user'):
+        return render_template("allPosts.html", user=session['user'])
+    return render_template("allPosts.html")
+
 
 app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)),debug=True)
 
