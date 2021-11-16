@@ -18,6 +18,11 @@ h2{
     font-size: 20px;
     text-align:center;
 }
+h3{
+    font-family:'didot', serif;
+    font-size: 20px;
+    text-align:left;
+}
 
 h4{
     font-family:'didot', serif;
@@ -110,6 +115,7 @@ th {
   background-color: #66CDAA;
   color: white;
 }
+
 
 
 

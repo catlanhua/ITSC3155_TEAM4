@@ -13,7 +13,7 @@
     <nav>
         <div class="navigation">
             <a href="{{ url_for('index') }}"> Home</a>
-            <a href="{{ url_for('get_posts') }}"> My Posts </a>
+            <a href="{{ url_for('get_posts') }}"> Profile </a>
             <a href="{{ url_for('new_post') }}"> New Post </a>
             <a href="{{ url_for('all_posts') }}"> All Posts </a>
             <a href="{{ url_for('logout') }}">Logout</a>
@@ -51,6 +51,7 @@
     </ul>
   {% endif %}
 {% endif %}
+
 <form action="{{ url_for('reply', post_id=post.id) }}" method="post">
   <div class="formwrapper">
     <h2 class="title">Reply</h2>

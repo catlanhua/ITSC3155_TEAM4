@@ -41,7 +41,8 @@ def index():
 def get_posts():
     if session.get('user'):
         my_posts = db.session.query(Post).filter_by(user_id=session['user_id']).all()
-        return render_template('posts.html', posts=my_posts, user=session['user'])
+        user = db.session.query(User).filter_by(id=session['user_id']).one()
+        return render_template('posts.html', posts=my_posts, user=user)
     else:
         return redirect(url_for('login'))
 
@@ -86,7 +87,7 @@ def update_post(post_id):
             # update note data
             my_post.title = title
             my_post.text = text
-            # update note in db
+
             db.session.add(my_post)
             db.session.commit()
             return redirect(url_for('get_posts'))
@@ -176,6 +177,7 @@ def all_posts():
         return render_template("allPosts.html", posts=posts, user=session['user'])
     return render_template("allPosts.html")
 
+
 @app.route('/posts/<post_id>/reply', methods=['POST'])
 def reply(post_id):
     if session.get('user'):
@@ -191,6 +193,18 @@ def reply(post_id):
         return redirect(url_for('get_post', post_id=post_id))
     else:
         return redirect(url_for('login'))
+
+
+@app.route('/profile/userID')
+def profile():
+    # insert code
+    if session.get('user'):
+        user = db.session.query(User).filter_by(id=session['user_id']).one()
+        return render_template("profile.html", user=user)
+    else:
+        return redirect(url_for('login'))
+
+
 app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
 
 # To see the web page in your web browser, go to the url,

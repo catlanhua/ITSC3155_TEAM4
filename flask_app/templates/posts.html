@@ -13,7 +13,7 @@
     <nav>
         <div class="navigation">
             <a href="{{ url_for('index') }}"> Home</a>
-            <a href="{{ url_for('get_posts') }}"> My Posts </a>
+            <a href="{{ url_for('get_posts') }}"> Profile </a>
             <a href="{{ url_for('all_posts') }}"> All Posts </a>
             <a href="{{ url_for('new_post') }}"> New Post </a>
             <a href="{{ url_for('logout') }}">Logout</a>
@@ -26,9 +26,27 @@
 <hr>
 
 <body>
-<h1>Welcome {{user}} to the QnA App!</h1>
-<h1>Listing Posts</h1>
+<h1>Welcome to the QnA App!</h1>
 
+<h3>Profile</h3>
+            <table>
+                <tr>
+                    <th>First name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Date registered</th>
+                </tr>
+                    {% if user %}
+                <tr>
+                    <td>{{ user.first_name }}</a></td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.registered_on }}</td>
+                </tr>
+                </table>
+                    {% endif %}
+            <br>
+<h3>My Posts</h3>
 <table>
     <tr>
         <th>Title</th>
