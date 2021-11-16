@@ -12,9 +12,9 @@
                 <a href="{{ url_for('index') }}"> Home </a> 
                 <a href="{{ url_for('get_posts') }}"> Profile </a>
                 <a href="{{ url_for('new_post') }}"> New Post </a>
-                <a href="{{ url_for('all_posts') }}"> All Posts </a>
 				{% if user %}				
-					<a href="{{ url_for('logout') }}">Logout</a>				
+					<a href="{{ url_for('logout') }}">Logout</a>
+                    <a href="{{ url_for('all_posts') }}"> Profile </a>
 				{% else %}				
 					<a href="{{ url_for('login') }}">Log In</a>
 					<a href="{{ url_for('register') }}">Register</a>				

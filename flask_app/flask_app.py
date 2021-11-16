@@ -175,7 +175,7 @@ def all_posts():
     if session.get('user'):
         posts = db.session.query(Post).all()
         return render_template("allPosts.html", posts=posts, user=session['user'])
-    return render_template("allPosts.html")
+    return render_template("index.html")
 
 
 @app.route('/posts/<post_id>/reply', methods=['POST'])
