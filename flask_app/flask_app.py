@@ -1,8 +1,8 @@
 # FLASK Tutorial 1 -- We show the bare bones code to get an app up and running
 
 # imports
-import os                 # os is used to get environment variables IP & PORT
-from flask import Flask   # Flask is the web app that we will customize
+import os  # os is used to get environment variables IP & PORT
+from flask import Flask  # Flask is the web app that we will customize
 from flask import render_template
 from flask import request
 from flask import redirect, url_for, session
@@ -12,15 +12,16 @@ from models import User as User
 from forms import RegisterForm, LoginForm
 import bcrypt
 
-app = Flask(__name__)     # create an app
+app = Flask(__name__)  # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask_qna_app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'SE3155'
 #  Bind SQLAlchemy db object to this Flask app
 db.init_app(app)
 # Setup models
 with app.app_context():
-    db.create_all()   # run under the app context
+    db.create_all()  # run under the app context
+
 
 # @app.route is a decorator. It gives the function "index" special powers.
 # In this case it makes it so anyone going to "your-url/" makes this function
@@ -47,9 +48,8 @@ def get_posts():
 @app.route('/posts/<post_id>')
 def get_post(post_id):
     if session.get('user'):
-        my_post = db.session.query(Post).filter_by(id=post_id, user_id=session['user_id']).one()
-        # create a comment form object
-        return render_template("post.html", post=my_post, user=session['user'])
+        a_post = db.session.query(Post).filter_by(id=post_id).one()
+        return render_template("post.html", post=a_post, user=session['user'])
     else:
         return redirect(url_for('login'))
 
@@ -98,7 +98,7 @@ def update_post(post_id):
 @app.route('/posts/delete/<post_id>', methods=['POST'])
 def delete_post(post_id):
     if session.get('user'):
-    # retrieve note from database
+        # retrieve note from database
         my_post = db.session.query(Post).filter_by(id=post_id).one()
         db.session.delete(my_post)
         db.session.commit()
@@ -175,7 +175,7 @@ def all_posts():
     return render_template("allPosts.html")
 
 
-app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)),debug=True)
+app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
 
 # To see the web page in your web browser, go to the url,
 #   http://127.0.0.1:5000
@@ -183,4 +183,3 @@ app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)),deb
 # Note that we are running with "debug=True", so if you make changes and save it
 # the server will automatically update. This is great for development but is a
 # security risk for production.
-
