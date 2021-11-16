@@ -41,6 +41,25 @@
         <td>{{ post.date }}</td>
     </tr>
 </table>
+{% if post.reply %}
+  {% if post.reply|length > 0 %}
+    <h2>Reply</h2>
+    <ul>
+    {% for re in post.reply %}
+      <li>{{ re.content }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endif %}
+<form action="{{ url_for('reply', post_id=post.id) }}" method="post">
+  <div class="formwrapper">
+    <h2 class="title">Reply</h2>
+    <div class="form-field">
+      {{ form.reply.label }} <br/> {{ form.reply }}
+    </div>
+    {{ form.submit }}
+  </div>
+</form>
 </body>
 
 <footer id="footer">

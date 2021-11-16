@@ -9,7 +9,8 @@ from flask import redirect, url_for, session
 from database import db
 from models import Post as Post
 from models import User as User
-from forms import RegisterForm, LoginForm
+from models import Reply as Reply
+from forms import RegisterForm, LoginForm, ReplyForm
 import bcrypt
 
 app = Flask(__name__)  # create an app
@@ -49,7 +50,8 @@ def get_posts():
 def get_post(post_id):
     if session.get('user'):
         a_post = db.session.query(Post).filter_by(id=post_id).one()
-        return render_template("post.html", post=a_post, user=session['user'])
+        form = ReplyForm()
+        return render_template("post.html", post=a_post, user=session['user'], form=form)
     else:
         return redirect(url_for('login'))
 
@@ -174,7 +176,21 @@ def all_posts():
         return render_template("allPosts.html", posts=posts, user=session['user'])
     return render_template("allPosts.html")
 
+@app.route('/posts/<post_id>/reply', methods=['POST'])
+def reply(post_id):
+    if session.get('user'):
+        reply_form = ReplyForm()
+        # validate_on_submit only validates using POST
+        if reply_form.validate_on_submit():
+            # get comment data
+            reply_text = request.form['reply']
+            new_record = Reply(reply_text, int(post_id), session['user_id'])
+            db.session.add(new_record)
+            db.session.commit()
 
+        return redirect(url_for('get_post', post_id=post_id))
+    else:
+        return redirect(url_for('login'))
 app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=True)
 
 # To see the web page in your web browser, go to the url,
