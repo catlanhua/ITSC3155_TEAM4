@@ -1,2 +1,10 @@
-# ITSC3155_TEAM4
-This is the GitHub page for our group project
+# QnA App
+This is a question and answer application. Our aplication has the following features:
+1. Register an account, log in and out
+2. View all the posts
+3. Create posts
+4. View your own post
+5. Edit your post
+6. Delete your post
+7. Reply to other posts
+
