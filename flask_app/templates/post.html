@@ -40,39 +40,40 @@
         <td>{{ post.text }}</td>
         <td>{{ post.date }}</td>
     </tr>
-	
+
 </table>
 
 <button id="formButton" onclick="toggle()">Reply</button>
 
 <div id="replyDiv">
-	<form id="form1" action="{{ url_for('reply', post_id=post.id) }}" method="post">
-		<div class="formwrapper">
-			<h2 class="title">Add a reply</h2>
-				<div class="form-field">
-					{{ form.reply }}
-				</div>
-			{{ form.submit }}
-		</div>
-	</form>
+    <form id="form1" action="{{ url_for('reply', post_id=post.id) }}" method="post">
+        <div class="formwrapper">
+            <h2 class="title">Add a reply</h2>
+            <div class="form-field">
+                {{ form.reply }}
+            </div>
+            {{ form.submit }}
+        </div>
+    </form>
 </div>
 {% if post.reply %}
-  {% if post.reply|length > 0 %}
-    <h2>Replies</h2>
-    <ul>
+{% if post.reply|length > 0 %}
+<h2>Replies</h2>
+<ul>
     {% for re in post.reply %}
-	<p>Author</p>
-	<div class="box">		
-		<div class="content">
-			<p>{{ re.content }}</p>
-		</div>
-		<span class="time-right">{{ re.date_posted }}</span>
-	</div>
+    <p>Author</p>
+    <div class="box">
+        <div class="content">
+            <p>{{ re.content }}</p>
+        </div>
+        <span class="time-right">{{ re.date_posted }}</span>
+    </div>
     {% endfor %}
-    </ul>
-  {% endif %}
+</ul>
+{% endif %}
 {% endif %}
 <!-- script -->
+
 <script>
 function toggle() {
   var x = document.getElementById("replyDiv");
@@ -82,8 +83,11 @@ function toggle() {
     x.style.display = "none";
   }
 }
-</script>
 
+</script>
+<form action="{{ url_for('report', post_id=post.id) }}" method="post">
+    <input type="submit" value="Report Post">
+</form>
 </body>
 
 <footer id="footer">

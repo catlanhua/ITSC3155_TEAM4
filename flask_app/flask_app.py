@@ -66,7 +66,7 @@ def new_post():
             from datetime import date
             today = date.today()
             today = today.strftime("%m-%d-%Y")
-            new_record = Post(title, text, today, session['user_id'])
+            new_record = Post(title, text, today, session['user_id'], report_count=0)
             db.session.add(new_record)
             db.session.commit()
 
@@ -201,6 +201,28 @@ def profile():
     if session.get('user'):
         user = db.session.query(User).filter_by(id=session['user_id']).one()
         return render_template("profile.html", user=user)
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/index/<post_id>/report', methods=['GET', 'POST'])
+def report(post_id):
+    if session.get('user'):
+        reported_post = db.session.query(Post).filter_by(id=post_id).one()
+        report_count = reported_post.report_count
+        report_count = report_count + 1
+        reported_post.report_count = report_count
+
+        db.session.add(reported_post)
+        db.session.commit()
+
+        if report_count >= 5:
+            db.session.delete(reported_post)
+            db.session.commit()
+
+            return redirect(url_for('index'))
+
+        return render_template("report.html", post=reported_post, user=session['user'])
     else:
         return redirect(url_for('login'))
 
