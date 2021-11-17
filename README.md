@@ -7,4 +7,5 @@ This is a question and answer application. Our aplication has the following feat
 5. Edit your post
 6. Delete your post
 7. Reply to other posts
+8. Report a post
 
