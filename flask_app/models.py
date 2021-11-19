@@ -9,14 +9,14 @@ class Post(db.Model):
     date = db.Column("date", db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     reply = db.relationship("Reply", backref="post", cascade="all, delete-orphan", lazy=True)
-    report_count = db.Column("reported", db.Integer, default=0)
+    report_total = db.Column("reported", db.Integer, default=0)
 
-    def __init__(self, title, text, date, user_id, report_count):
+    def __init__(self, title, text, date, user_id, report_total):
         self.title = title
         self.text = text
         self.date = date
         self.user_id = user_id
-        self.report_count = report_count
+        self.report_total = report_total
 
 
 class User(db.Model):
