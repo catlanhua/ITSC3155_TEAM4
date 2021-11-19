@@ -66,7 +66,7 @@ def new_post():
             from datetime import date
             today = date.today()
             today = today.strftime("%m-%d-%Y")
-            new_record = Post(title, text, today, session['user_id'], report_count=0)
+            new_record = Post(title, text, today, session['user_id'], report_total=0)
             db.session.add(new_record)
             db.session.commit()
 
@@ -209,14 +209,15 @@ def profile():
 def report(post_id):
     if session.get('user'):
         reported_post = db.session.query(Post).filter_by(id=post_id).one()
-        report_count = reported_post.report_count
-        report_count = report_count + 1
-        reported_post.report_count = report_count
+        report_total = reported_post.report_total
+        #Increment the report total by 1everytime it is reported
+        report_total = report_total + 1
+        reported_post.report_total = report_total
 
         db.session.add(reported_post)
         db.session.commit()
 
-        if report_count >= 5:
+        if report_total >= 5:
             db.session.delete(reported_post)
             db.session.commit()
 

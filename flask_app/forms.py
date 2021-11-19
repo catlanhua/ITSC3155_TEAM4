@@ -33,6 +33,7 @@ class RegisterForm(FlaskForm):
         if db.session.query(User).filter_by(email=field.data).count() != 0:
             raise ValidationError('Username already in use.')
 
+
 class LoginForm(FlaskForm):
     class Meta:
         csrf = False
@@ -49,6 +50,7 @@ class LoginForm(FlaskForm):
     def validate_email(self, field):
         if db.session.query(User).filter_by(email=field.data).count() == 0:
             raise ValidationError('Incorrect username or password.')
+
 
 class ReplyForm(FlaskForm):
     class Meta:
