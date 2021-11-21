@@ -11,12 +11,18 @@ from models import Post as Post
 from models import User as User
 from models import Reply as Reply
 from forms import RegisterForm, LoginForm, ReplyForm
+import werkzeug
 import bcrypt
+
+# Path for uploaded files
+UPLOAD_FOLDER = 'static/uploads/'
 
 app = Flask(__name__)  # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask_qna_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'SE3155'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024  # 2MB max limit
 #  Bind SQLAlchemy db object to this Flask app
 db.init_app(app)
 # Setup models
@@ -37,12 +43,12 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/posts')
+@app.route('/profile')
 def get_posts():
     if session.get('user'):
         my_posts = db.session.query(Post).filter_by(user_id=session['user_id']).all()
         user = db.session.query(User).filter_by(id=session['user_id']).one()
-        return render_template('posts.html', posts=my_posts, user=user)
+        return render_template('profile.html', posts=my_posts, user=user)
     else:
         return redirect(url_for('login'))
 
@@ -69,7 +75,7 @@ def new_post():
             new_record = Post(title, text, today, session['user_id'], report_total=0)
             db.session.add(new_record)
             db.session.commit()
-
+            # TODO: LOGIC FOR UPLOADING AN IMAGE
             return redirect(url_for('get_posts'))
         else:
             return render_template("new.html", user=session['user'])
@@ -195,22 +201,12 @@ def reply(post_id):
         return redirect(url_for('login'))
 
 
-@app.route('/profile/userID')
-def profile():
-    # insert code
-    if session.get('user'):
-        user = db.session.query(User).filter_by(id=session['user_id']).one()
-        return render_template("profile.html", user=user)
-    else:
-        return redirect(url_for('login'))
-
-
 @app.route('/index/<post_id>/report', methods=['GET', 'POST'])
 def report(post_id):
     if session.get('user'):
         reported_post = db.session.query(Post).filter_by(id=post_id).one()
         report_total = reported_post.report_total
-        #Increment the report total by 1everytime it is reported
+        # Increment the report total by 1everytime it is reported
         report_total = report_total + 1
         reported_post.report_total = report_total
 
