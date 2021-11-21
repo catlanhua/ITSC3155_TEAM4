@@ -29,9 +29,16 @@
 <h1>Welcome {{user.name}} to the QnA App!</h1>
 <h2>Post Details</h2>
 <div class="box">
-<h4>{{ post.title }}</h4>
-<h4>{{ post.text }}</h4>
-<h4>{{ post.date }}</h4>
+	<div class="author">
+		<h4>{{ post.user.first_name }} {{ post.user.last_name }}</h4>
+	</div>
+	<div class="title">
+		<h4>{{ post.title }}</h4>
+	</div>
+	<div class="content">
+        <p>{{ post.text }}</p>
+    </div>
+<span class="time-right">{{ post.date }}</span>
 </div>
 
 <button id="formButton" onclick="toggle()">Reply</button>
@@ -52,7 +59,7 @@
 <h2>Replies</h2>
 <ul>
     {% for re in post.reply %}
-    <p>Author</p>
+    <h4>{{ re.user.first_name }} {{ re.user.last_name }}</h4>
     <div class="box">
         <div class="content">
             <p>{{ re.content }}</p>

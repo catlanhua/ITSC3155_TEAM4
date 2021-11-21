@@ -121,10 +121,10 @@ th {
   color: white;
 }
 
- /**Styling the replies START**/
+ /**Styling the box for post and replies START**/
 
 .box {
-  border: 1px solid #dedede;
+  border: 1px solid green ;
   background-color: #e6fff7;
   border-radius: 3px;
   padding: 10px;
@@ -145,7 +145,12 @@ th {
 
 .box:author {
   font-family:Consolas, monaco, monospace;
-  font-weight:bold;
+  font-size: 15px;
+}
+
+.box:title {
+  font-family: Consolas, monaco, monospace;
+  font-size: 25px;
 }
 
 .content {
@@ -167,8 +172,4 @@ th {
   padding: 10px;
   width: 150px;
   text-align: center;
-}
-
-.box {
-  border: 1px solid green ;
 }
