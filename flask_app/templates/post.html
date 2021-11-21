@@ -40,11 +40,18 @@
     </div>
 <span class="time-right">{{ post.date }}</span>
 </div>
-
-<button id="formButton" onclick="toggle()">Reply</button>
-
+<div class="buttonBar">
+	<div class="buttonChild">
+		<button id="replyButton" onclick="toggle()">Reply</button>
+	</div>
+	<div class="buttonChild">
+		<form id="report" action="{{ url_for('report', post_id=post.id) }}" method="post">
+			<input type="submit" value="Report Post" id="reportSubmit">
+		</form>
+	</div>
+</div>
 <div id="replyDiv">
-    <form id="form1" action="{{ url_for('reply', post_id=post.id) }}" method="post">
+    <form id="reply" action="{{ url_for('reply', post_id=post.id) }}" method="post">
         <div class="formwrapper">
             <h2 class="title">Add a reply</h2>
             <div class="form-field">
@@ -54,6 +61,7 @@
         </div>
     </form>
 </div>
+
 {% if post.reply %}
 {% if post.reply|length > 0 %}
 <h2>Replies</h2>
@@ -85,9 +93,7 @@ function toggle() {
 
 </script>
 
-<form action="{{ url_for('report', post_id=post.id) }}" method="post">
-    <input type="submit" value="Report Post">
-</form>
+
 </body>
 
 

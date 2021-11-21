@@ -162,7 +162,25 @@ th {
   display: none;
 }
 
-#formButton {
+
+/* Style the Report */
+.buttonChild {
+  display: inline-block; 
+}
+
+#replyButton {
+  position: relative;
+  background-color: #66CDAA;
+  border: none;
+  margin-top: 15px;
+  font-size: 20px;
+  color: #FFFFFF;
+  padding: 10px;
+  width: 150px;
+  text-align: center;
+}
+
+input#reportSubmit {
   position: relative;
   background-color: #66CDAA;
   border: none;
