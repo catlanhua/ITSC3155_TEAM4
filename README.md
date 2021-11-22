@@ -8,5 +8,5 @@ This is a question and answer application. Our aplication has the following feat
 6. Delete your post
 7. Reply to other posts
 8. Report a post
-9. Added a view counter
+9. View count for post
 
