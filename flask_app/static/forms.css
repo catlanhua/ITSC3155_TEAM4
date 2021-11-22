@@ -28,6 +28,7 @@ form {
 }
 
 label {
+  font-family:Consolas, monaco, monospace;
   font-size: .9em;
   color: black;
   margin-bottom: 3px;
@@ -36,14 +37,14 @@ label {
 }
 
 input, textarea{
-  padding: 10px 13px;
-  margin-bottom: 15px;
-  border-radius: 2px;
-  border: 1px solid #d4d9e3;
-  font-weight: 200;
-  color: #4d5060;
-  font-family: 'Poppins', sans-serif;
-  font-size: .9em;
+  font-family:Consolas, monaco, monospace;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 
 }
 
