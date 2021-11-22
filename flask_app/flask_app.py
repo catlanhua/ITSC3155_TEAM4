@@ -58,6 +58,13 @@ def get_post(post_id):
     if session.get('user'):
         a_post = db.session.query(Post).filter_by(id=post_id).one()
         form = ReplyForm()
+        if request.method == 'GET':
+            viewed_post = db.session.query(Post).filter_by(id=post_id).one()
+            total_views = viewed_post.views
+            total_views += 1
+            viewed_post.views = total_views
+            db.session.add(viewed_post)
+            db.session.commit()
         return render_template("post.html", post=a_post, user=session['user'], form=form)
     else:
         return redirect(url_for('login'))
@@ -72,7 +79,7 @@ def new_post():
             from datetime import date
             today = date.today()
             today = today.strftime("%m-%d-%Y")
-            new_record = Post(title, text, today, session['user_id'], report_total=0)
+            new_record = Post(title, text, today, session['user_id'], report_total=0, views=0)
             db.session.add(new_record)
             db.session.commit()
             # TODO: LOGIC FOR UPLOADING AN IMAGE
