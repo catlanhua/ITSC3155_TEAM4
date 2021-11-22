@@ -56,7 +56,8 @@
                     {% endif %}
                 </div>
                 <div class="form-field">{{ form.password.label }} {{ form.password }}
-                    {% if form.password.errors %}
+                    <span class="tooltiptext">Password must be of length 6 - 20, contain at least a letter, a number, and a special character (@$!%*#?) </span>
+					{% if form.password.errors %}
                     <ul class="errors">
                         {% for error in form.password.errors %}
                         <li>{{ error }}</li>
@@ -64,8 +65,8 @@
                     </ul>
                     {% endif %}
                 </div>
-                <div class="form-field">{{ form.confirmPassword.label }} {{ form.confirmPassword }}
-                    {% if form.confirmPassword.errors %}
+                <div class="form-field">{{ form.confirmPassword.label }} {{ form.confirmPassword }}                    
+					{% if form.confirmPassword.errors %}
                     <ul class="errors">
                         {% for error in form.confirmPassword.errors %}
                         <li>{{ error }}</li>
