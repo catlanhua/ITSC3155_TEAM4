@@ -10,4 +10,5 @@ This is a question and answer application. Our aplication has the following feat
 8. Reply to other posts
 9. Report a post
 10. View count for post
+11. Like/Dislike a post
 
