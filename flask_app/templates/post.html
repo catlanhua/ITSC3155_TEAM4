@@ -50,6 +50,16 @@
 			<input type="submit" value="Report Post" id="reportSubmit">
 		</form>
 	</div>
+	<div class="buttonChild">
+		<form id="like_unlike" action="{{ url_for('like_action', post_id=post.id) }}" method="get">
+			<input type="submit" value="Like  {{ post.likes.count() }}" id="likeButton">
+		</form>
+	</div>
+	<div class="buttonChild">
+		<form id="dislike_undislike" action="{{ url_for('dislike_action', post_id=post.id) }}" method="get">
+			<input type="submit" value="Dislike  {{ post.dislikes.count() }}" id="dislikeButton">
+		</form>
+	</div>
 </div>
 <div id="replyDiv">
     <form id="reply" action="{{ url_for('reply', post_id=post.id) }}" method="post">
