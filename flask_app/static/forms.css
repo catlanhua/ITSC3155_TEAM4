@@ -85,6 +85,32 @@ input[type="submit"]:hover {
   color: green;
 }
 
+#searchInput {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 90%;
+  background: #f1f1f1;
+}
+
+#searchButton {
+  float: left;
+  width: 10%;
+  padding: 10px;
+  margin-top: 8px;
+  background: #66CDAA;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.postSearch button:hover {
+  background: #42B28D;
+}
+
 .success-wrapper {
   background: white;
   width: 350px;
@@ -159,3 +185,4 @@ i {
   visibility: visible;
   opacity: 1;
 }
+
