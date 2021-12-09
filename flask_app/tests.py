@@ -39,7 +39,6 @@ class FlaskTest(unittest.TestCase):
         statuscode = response.status_code
         self.assertEqual(statuscode, 500)
 
-
     def test_reply(self):
         response = requests.get("http://127.0.0.1:5000/posts/<post_id>/reply")
         statuscode = response.status_code
@@ -59,7 +58,6 @@ class FlaskTest(unittest.TestCase):
         response = requests.get("http://127.0.0.1:5000/posts/<post_id>/dislike_undislike")
         statuscode = response.status_code
         self.assertEqual(statuscode, 500)
-
 
 if __name__ == " __main__":
     unittest.main()
