@@ -11,8 +11,8 @@ class Post(db.Model):
     reply = db.relationship("Reply", backref="post", cascade="all, delete-orphan", lazy=True)
     report_total = db.Column("reported", db.Integer, default=0)
     views = db.Column("views", db.Integer, default=0)
-    likes = db.relationship('PostLike', backref='post', lazy='dynamic')
-    dislikes = db.relationship('PostDislike', backref='post', lazy='dynamic')
+    likes = db.relationship('PostLikes', backref='post', lazy='dynamic')
+    dislikes = db.relationship('PostDislikes', backref='post', lazy='dynamic')
 
     def __init__(self, title, text, date, user_id, report_total, views):
         self.title = title
@@ -23,13 +23,13 @@ class Post(db.Model):
         self.views = views
 
 
-class PostLike(db.Model):
+class PostLikes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
 
-class PostDislike(db.Model):
+class PostDislikes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
@@ -44,8 +44,8 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     posts = db.relationship("Post", backref="user", lazy=True)
     reply = db.relationship("Reply", backref="user", lazy=True)
-    liked = db.relationship('PostLike', foreign_keys='PostLike.user_id', backref='user', lazy='dynamic')
-    disliked = db.relationship('PostDislike', foreign_keys='PostDislike.user_id', backref='user', lazy='dynamic')
+    liked = db.relationship('PostLikes', foreign_keys='PostLikes.user_id', backref='user', lazy='dynamic')
+    disliked = db.relationship('PostDislikes', foreign_keys='PostDislikes.user_id', backref='user', lazy='dynamic')
 
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name
@@ -54,33 +54,29 @@ class User(db.Model):
         self.password = password
         self.registered_on = datetime.date.today()
 
-    def like_post(self, post):
-        if not self.has_liked_post(post):
-            like = PostLike(user_id=self.id, post_id=post.id)
+    def like(self, post):
+        if not self.if_liked(post):
+            like = PostLikes(user_id=self.id, post_id=post.id)
             db.session.add(like)
 
-    def unlike_post(self, post):
-        if self.has_liked_post(post):
-            PostLike.query.filter_by(
-                user_id=self.id,
-                post_id=post.id).delete()
+    def unlike(self, post):
+        if self.if_liked(post):
+            PostLikes.query.filter_by(user_id=self.id, post_id=post.id).delete()
 
-    def has_liked_post(self, post):
-        return PostLike.query.filter(PostLike.user_id == self.id, PostLike.post_id == post.id).count() > 0
+    def if_liked(self, post):
+        return PostLikes.query.filter(PostLikes.user_id == self.id, PostLikes.post_id == post.id).count() > 0
 
-    def dislike_post(self, post):
-        if not self.has_disliked_post(post):
-            dislike = PostDislike(user_id=self.id, post_id=post.id)
+    def dislike(self, post):
+        if not self.if_disliked(post):
+            dislike = PostDislikes(user_id=self.id, post_id=post.id)
             db.session.add(dislike)
 
-    def undislike_post(self, post):
-        if self.has_disliked_post(post):
-            PostDislike.query.filter_by(
-                user_id=self.id,
-                post_id=post.id).delete()
+    def undislike(self, post):
+        if self.if_disliked(post):
+            PostDislikes.query.filter_by(user_id=self.id, post_id=post.id).delete()
 
-    def has_disliked_post(self, post):
-        return PostDislike.query.filter(PostDislike.user_id == self.id, PostDislike.post_id == post.id).count() > 0
+    def if_disliked(self, post):
+        return PostDislikes.query.filter(PostDislikes.user_id == self.id, PostDislikes.post_id == post.id).count() > 0
 
 
 class Reply(db.Model):
