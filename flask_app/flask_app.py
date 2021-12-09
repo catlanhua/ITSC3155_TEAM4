@@ -208,6 +208,54 @@ def reply(post_id):
         return redirect(url_for('login'))
 
 
+@app.route('/posts/<post_id>/like_unlike')
+def like_action(post_id):
+    if session.get('user'):
+        post = db.session.query(Post).filter_by(id=post_id).one()
+        user = db.session.query(User).filter_by(id=session['user_id']).one()
+        form = ReplyForm()
+        if request.method == 'GET':
+            if user.has_disliked_post(post) > 0:
+                user.undislike_post(post)
+                user.like_post(post)
+                db.session.commit()
+            else:
+                if user.has_liked_post(post) == 0:
+                    user.like_post(post)
+                    db.session.commit()
+                elif user.has_liked_post(post) > 0:
+                    user.unlike_post(post)
+                    db.session.commit()
+
+        return render_template("post.html", post=post, user=session['user'], form=form)
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/posts/<post_id>/dislike_undislike')
+def dislike_action(post_id):
+    if session.get('user'):
+        post = db.session.query(Post).filter_by(id=post_id).one()
+        user = db.session.query(User).filter_by(id=session['user_id']).one()
+        form = ReplyForm()
+        if request.method == 'GET':
+            if user.has_liked_post(post) > 0:
+                user.unlike_post(post)
+                user.dislike_post(post)
+                db.session.commit()
+            else:
+                if user.has_disliked_post(post) == 0:
+                    user.dislike_post(post)
+                    db.session.commit()
+                elif user.has_disliked_post(post) > 0:
+                    user.undislike_post(post)
+                    db.session.commit()
+
+        return render_template("post.html", post=post, user=session['user'], form=form)
+    else:
+        return redirect(url_for('login'))
+
+
 @app.route('/index/<post_id>/report', methods=['GET', 'POST'])
 def report(post_id):
     if session.get('user'):

@@ -1,5 +1,6 @@
 import unittest
-import requests
+#import requests
+
 
 class FlaskTest(unittest.TestCase):
 
@@ -38,14 +39,23 @@ class FlaskTest(unittest.TestCase):
         statuscode = response.status_code
         self.assertEqual(statuscode, 500)
 
-    #TODO
-    def test_search(self):
-        response = requests.get("http://127.0.0.1:5000/posts/delete")
+    def test_reply(self):
+        response = requests.get("http://127.0.0.1:5000/posts/<post_id>/reply")
         statuscode = response.status_code
         self.assertEqual(statuscode, 500)
 
-    def test_sort(self):
-        response = requests.get("http://127.0.0.1:5000/posts/delete")
+    def test_report(self):
+        response = requests.get("http://127.0.0.1:5000/index/<post_id>/report")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 500)
+
+    def test_like(self):
+        response = requests.get("http://127.0.0.1:5000/posts/<post_id>/like_unlike")
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 500)
+
+    def test_dislike(self):
+        response = requests.get("http://127.0.0.1:5000/posts/<post_id>/dislike_undislike")
         statuscode = response.status_code
         self.assertEqual(statuscode, 500)
 
